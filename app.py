@@ -196,3 +196,41 @@ def main():
 
         if len(audio_data) < metadata["target_sr"]*0.1:
             st.error("⚠️ Audio terlalu pendek. Mohon rekam ulang minimal 0.1 detik.")
+
+        col1, col2, col3 = st.columns([1,2,1])
+        with col2:
+            if st.button("🚀 PREDIKSI PERINTAH", use_container_width=True):
+                with st.spinner("🔎 Menganalisis fitur dan memprediksi..."):
+                    pred, prob, y_proc = predict_audio(audio_data, sr, model, scaler, feature_names, metadata, cfg)
+
+                if pred is not None:
+                    label = metadata["label_map"][pred]
+                    confidence = prob[pred]*100
+                    warna = "#2ecc71" if label=="Buka" else "#e74c3c"
+                    ikon = "🔓" if label=="Buka" else "🔒"
+
+                    st.markdown(
+                        f"""<div class="prediction-box" style="background-color:{warna}; color:white;">
+                        <h2>{ikon} PERINTAH TERIDENTIFIKASI: <b>{label.upper()}</b></h2>
+                        <h3>Tingkat Keyakinan: {confidence:.2f}%</h3>
+                        </div>""",
+                        unsafe_allow_html=True
+                    )
+
+                    st.markdown("#### Probabilitas Kelas")
+                    cols_prob = st.columns(len(metadata["label_map"]))
+                    for i, name in metadata["label_map"].items():
+                        prob_percent = prob[i]*100
+                        with cols_prob[i]:
+                            st.metric(label=name, value=f"{prob_percent:.2f}%")
+
+                    st.markdown("---")
+                    st.markdown("#### Visualisasi Audio yang Diproses")
+                    fig = plot_waveform_and_spectrogram(y_proc, metadata["target_sr"])
+                    st.pyplot(fig, use_container_width=True)
+
+    st.markdown("---")
+    st.caption("Sistem Klasifikasi Suara ML - Dibuat dengan Streamlit, Librosa, dan TSFEL.")
+
+if __name__ == "__main__":
+    main()
