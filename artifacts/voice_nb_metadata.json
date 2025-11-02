@@ -1,0 +1,16 @@
+{
+    "target_sr": 16000,
+    "n_features": 235,
+    "train_accuracy": 0.9297297297297298,
+    "test_accuracy": 0.9361702127659575,
+    "label_map": {
+        "0": "Buka",
+        "1": "Tutup"
+    },
+    "feature_source": [
+        "TSFEL",
+        "Librosa (MFCC, Chroma, Tonnetz, ZCR, RMS, SpectralContrast)"
+    ],
+    "model_type": "GaussianNB",
+    "model_params": {}
+}

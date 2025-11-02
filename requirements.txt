@@ -1,0 +1,16 @@
+streamlit
+streamlit-webrtc
+audio-recorder-streamlit
+tsfel
+librosa
+soundfile
+numpy
+pandas
+matplotlib
+scikit-learn
+scipy
+pydub
+av
+joblib
+tqdm
+seaborn
